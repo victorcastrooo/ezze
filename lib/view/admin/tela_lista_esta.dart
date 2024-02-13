@@ -3,9 +3,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:parceiroezze/view/admin/tela_cadastrar_disponibilidade.dart';
 import 'package:parceiroezze/view/admin/tela_estabelecimento_completo.dart';
-import 'package:parceiroezze/view/admin/tela_view_detalhes_usuario.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ListaEstabelecimentos extends StatefulWidget {
@@ -208,11 +206,6 @@ class EstabelecimentoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Uri _url = Uri.parse('https://www.instagram.com/${data['arrobaInsta']}/');
-    Uri _enderecoUrl = Uri.parse(
-        'https://www.google.com/maps/search/?api=1&query=${data['endereco']}+${data['numero']}+${data['cidade']}+${data['cep']}');
-    Uri _whatsUrl = Uri.parse('https://wa.me/+${data['telefoneresponsavel']}');
-
     return Card(
       color: const Color.fromRGBO(255, 255, 255, 1),
       elevation: 0,

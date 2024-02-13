@@ -18,7 +18,6 @@ class CadastrarDisponibilidade extends StatefulWidget {
 class _CadastrarDisponibilidadeState extends State<CadastrarDisponibilidade> {
   @override
   void initState() {
-    String id = widget.estabelecimento['uid'];
     super.initState();
   }
 

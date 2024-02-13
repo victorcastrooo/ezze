@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parceiroezze/view/admin/tela_cadastrar_disponibilidade.dart';
 import 'package:parceiroezze/view/admin/tela_novo_estabelecimento.dart';
-import 'package:parceiroezze/view/admin/tela_lista_usuarios.dart';
 import 'package:parceiroezze/view/admin/tela_lista_esta.dart';
 import 'package:parceiroezze/view/tela_login.dart';
 
