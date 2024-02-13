@@ -1,5 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api, prefer_final_fields, avoid_print, prefer_interpolation_to_compose_strings
-
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -64,9 +62,13 @@ class _ListaUsuariosState extends State<ListaUsuarios> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Parceiros',
+          style: TextStyle(
+            color: Color.fromRGBO(113, 0, 150, 0.8),
+          ),
         ),
       ),
       body: Column(
@@ -92,6 +94,7 @@ class _ListaUsuariosState extends State<ListaUsuarios> {
                     return Card(
                       color: Colors.white,
                       child: ListTile(
+                        tileColor: Colors.white,
                         title: Row(
                           children: [
                             Image.network(
@@ -111,14 +114,13 @@ class _ListaUsuariosState extends State<ListaUsuarios> {
                                     Text(
                                       usuario['nomeCompleto'],
                                       style: const TextStyle(
+                                          color:
+                                              Color.fromRGBO(113, 0, 150, 0.8),
                                           fontWeight: FontWeight.bold),
                                     ),
                                     isNewUser
-                                        ? const Row(
+                                        ? Row(
                                             children: [
-                                              SizedBox(
-                                                width: 20,
-                                              ),
                                               Icon(
                                                 Icons.check,
                                                 color: Colors.green,
@@ -160,27 +162,29 @@ class _ListaUsuariosState extends State<ListaUsuarios> {
                                     _getCategoryIcon(usuario['cat']),
                                     usuario['rating'] == 0
                                         ? const Text('Não avaliado ainda')
-                                        : RatingBar.builder(
-                                            itemSize: 20,
-                                            initialRating:
-                                                usuario['rating']?.toDouble() ??
-                                                    0.0,
-                                            minRating: 0,
-                                            direction: Axis.horizontal,
-                                            allowHalfRating: false,
-                                            itemCount: 5,
-                                            itemPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 2.0),
-                                            itemBuilder: (context, _) =>
-                                                const Icon(
-                                              Icons.star,
-                                              color: Color.fromARGB(
-                                                  255, 255, 196, 0),
+                                        : IgnorePointer(
+                                            ignoring:
+                                                true, // Desativa a interação com os widgets filhos
+                                            child: RatingBar.builder(
+                                              itemSize: 20,
+                                              initialRating: usuario['rating']
+                                                      ?.toDouble() ??
+                                                  0.0,
+                                              minRating: 0,
+                                              direction: Axis.horizontal,
+                                              allowHalfRating: false,
+                                              itemCount: 5,
+                                              itemPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 2.0),
+                                              itemBuilder: (context, _) =>
+                                                  const Icon(
+                                                Icons.star,
+                                                color: Color.fromARGB(
+                                                    255, 255, 196, 0),
+                                              ),
+                                              onRatingUpdate: (rating) {},
                                             ),
-                                            onRatingUpdate: (rating) {
-                                              // Aqui você pode adicionar lógica para salvar a avaliação, se necessário
-                                            },
                                           ),
                                   ],
                                 ),
@@ -214,7 +218,6 @@ class _ListaUsuariosState extends State<ListaUsuarios> {
             ),
           ),
           Card(
-            elevation: 2.0,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(

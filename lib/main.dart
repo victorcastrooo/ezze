@@ -6,12 +6,23 @@ import 'package:parceiroezze/service/firebase_messaging_service.dart';
 import 'package:parceiroezze/service/notification_service.dart';
 import 'package:parceiroezze/view/tela_login.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 // ignore: depend_on_referenced_packages
 import 'package:intl/date_symbol_data_local.dart';
 
 Future<void> main() async {
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationPlugin =
+      FlutterLocalNotificationsPlugin();
   WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting();
+
+  void initialize() {
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+            android: AndroidInitializationSettings("@mipmap/ic_launcher"));
+    _flutterLocalNotificationPlugin.initialize(initializationSettings);
+  }
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -52,15 +63,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          brightness: Brightness.light,
           textTheme: GoogleFonts.poppinsTextTheme(),
-          useMaterial3: true,
-          appBarTheme: const AppBarTheme(
-              color: Colors.white,
+          appBarTheme: AppBarTheme(
               iconTheme:
                   IconThemeData(color: Color.fromRGBO(113, 0, 150, 0.8)))),
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Ezze',
       home: const TelaLogin(),
     );
   }

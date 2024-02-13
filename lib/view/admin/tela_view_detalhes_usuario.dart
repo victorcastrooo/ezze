@@ -15,7 +15,7 @@ class UsuarioDetailScreen extends StatefulWidget {
 class _UsuarioDetailScreenState extends State<UsuarioDetailScreen> {
   late bool _status;
   double _userRating = 0.0;
-  bool _isEditing = false;
+  bool _isEditing = true;
 
   // Controladores para campos editáveis
   TextEditingController _nomeCompletoController = TextEditingController();
@@ -26,8 +26,6 @@ class _UsuarioDetailScreenState extends State<UsuarioDetailScreen> {
     super.initState();
     _status = widget.usuario['status'];
     _userRating = (widget.usuario['rating'] ?? 0).toDouble();
-
-    // Inicializa os controladores com os valores existentes
     _nomeCompletoController.text = widget.usuario['nomeCompleto'];
     _emailController.text = widget.usuario['email'];
   }
@@ -43,8 +41,10 @@ class _UsuarioDetailScreenState extends State<UsuarioDetailScreen> {
               icon: const Icon(Icons.save),
               onPressed: () async {
                 await _saveStatus();
+                sendNotification(
+                    title: "Teste", body: "Ok", token: widget.usuario['token']);
                 setState(() {
-                  _isEditing = false;
+                  _isEditing = true;
                 });
               },
             ),
@@ -93,7 +93,7 @@ class _UsuarioDetailScreenState extends State<UsuarioDetailScreen> {
             // Adiciona o widget RatingBar
             RatingBar.builder(
               initialRating: _userRating,
-              minRating: 1,
+              minRating: 0,
               direction: Axis.horizontal,
               allowHalfRating: false,
               itemCount: 5,
@@ -142,7 +142,7 @@ class _UsuarioDetailScreenState extends State<UsuarioDetailScreen> {
       body:
           "Seu status foi alterado para ${_status ? 'ativo' : 'inativo'}. Sua avaliação é $_userRating estrelas.",
       token:
-          "fRdJF2VJQGSP7LLtB44Egk:APA91bE4F6xbgLFWLWGM4iv71w-LhDB2wRdHITyNoGg0McAO1Z2AZXLlu5Q3xDZpxDq542Z0RJUHNGuzU9F3cCEFdu4y0rSQxireLGWH9HmTnHh9OcIAdPKLLq8Q9-Tp-gk0NhU81ILg",
+          "cEtKL9-gQiCepsN0Oh0qas:APA91bHX9jR8TcosbvSs4kN6U_DdDNSrsn740JA-m_pK4ZsNLDBYcCSyBLPtrH487EPqalq6d9Dn8l-xReTqlCkdQTZrkdLDj68sT5t5LKyjoP_Erzdsf9GAs9uS0hQLtxergvhWNVoJ",
     );
   }
 
@@ -158,7 +158,6 @@ class _UsuarioDetailScreenState extends State<UsuarioDetailScreen> {
       final response = await callable.call(<String, dynamic>{
         'title': title,
         'body': body,
-        'image': image,
         'token': token,
       });
 

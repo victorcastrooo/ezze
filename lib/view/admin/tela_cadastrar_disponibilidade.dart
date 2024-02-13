@@ -6,14 +6,22 @@ import 'package:parceiroezze/view/utils.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CadastrarDisponibilidade extends StatefulWidget {
-  const CadastrarDisponibilidade({Key? key}) : super(key: key);
+  CadastrarDisponibilidade({Key? key, required this.estabelecimento})
+      : super(key: key);
 
+  final Map<String, dynamic> estabelecimento;
   @override
   State<CadastrarDisponibilidade> createState() =>
       _CadastrarDisponibilidadeState();
 }
 
 class _CadastrarDisponibilidadeState extends State<CadastrarDisponibilidade> {
+  @override
+  void initState() {
+    String id = widget.estabelecimento['uid'];
+    super.initState();
+  }
+
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -27,8 +35,8 @@ class _CadastrarDisponibilidadeState extends State<CadastrarDisponibilidade> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: const Color.fromRGBO(113, 0, 150, 1),
-        title: const Text(
-          'Nova Disponibilidade',
+        title: Text(
+          '${widget.estabelecimento['uid']}',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -224,6 +232,7 @@ class _CadastrarDisponibilidadeState extends State<CadastrarDisponibilidade> {
         'data': date,
         'quantidade': quantidadeMap[date],
         'periodo': periodoMap[date],
+        'empresaId': widget.estabelecimento['uid'],
       };
 
       await disponibilidadeCollection.add(data);

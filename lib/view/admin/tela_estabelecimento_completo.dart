@@ -7,20 +7,21 @@ import 'package:parceiroezze/view/admin/tela_lista_usuarios.dart';
 import 'package:parceiroezze/view/admin/tela_lista_esta.dart';
 import 'package:parceiroezze/view/tela_login.dart';
 
-class TelaInicialAdmin extends StatefulWidget {
-  const TelaInicialAdmin({Key? key}) : super(key: key);
+class TelaEstaCompl extends StatefulWidget {
+  TelaEstaCompl({Key? key, required this.estabelecimento}) : super(key: key);
+
+  final Map<String, dynamic> estabelecimento;
 
   @override
-  State<TelaInicialAdmin> createState() => _TelaInicialAdminState();
+  State<TelaEstaCompl> createState() => _TelaEstaComplState();
 }
 
-class _TelaInicialAdminState extends State<TelaInicialAdmin> {
+class _TelaEstaComplState extends State<TelaEstaCompl> {
   String nomeDoAdmin = ''; // Variável para armazenar o nome do administrador
 
   @override
   void initState() {
     super.initState();
-    _carregarNomeDoAdmin(); // Chama a função para carregar o nome do administrador ao iniciar a tela
   }
 
   Future<void> _logout(BuildContext context) async {
@@ -32,99 +33,60 @@ class _TelaInicialAdminState extends State<TelaInicialAdmin> {
     );
   }
 
-  Future<void> _carregarNomeDoAdmin() async {
-    // Use FirebaseAuth para obter o usuário atual
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      // Use FirebaseFirestore para obter os dados do usuário a partir do Firestore
-      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-          .instance
-          .collection('adminstradores')
-          .doc(user.uid)
-          .get();
-
-      // Atualize o estado com o nome do administrador
-      setState(() {
-        nomeDoAdmin =
-            snapshot['nome']; // Supondo que o campo no Firestore é 'nome'
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(113, 0, 150, 1),
         elevation: 0,
-        title: const Text(
-          "Administração",
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          "${widget.estabelecimento['nomeFantasia']}",
         ), // Atualiza dinamicamente o nome do administrador
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.logout,
-              color: Colors.white,
-            ),
-            onPressed: () async {
-              await _logout(context);
-            },
-          ),
-        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            color: const Color.fromRGBO(113, 0, 150, 1),
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Olá, $nomeDoAdmin",
-                    style: const TextStyle(color: Colors.white))
-              ],
-            ),
-          ),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.all(15),
               children: [
-                const Text(
-                  'Parceiros',
-                  style: TextStyle(color: Color.fromARGB(255, 88, 88, 88)),
-                ),
-                const Divider(),
                 Card(
-                  color: const Color.fromARGB(255, 94, 197, 212),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.person_search,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                    title: const Text('Parceiros',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255))),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ListaUsuarios(),
-                        ),
-                      );
-                    },
+                  color: const Color.fromRGBO(255, 255, 255, 1),
+                  elevation: 1,
+                  margin: const EdgeInsets.all(10),
+                  child: Row(
+                    children: [
+                      Image.network(
+                        "${widget.estabelecimento['imageUrl']}",
+                        width: 75,
+                        height: 75,
+                        fit: BoxFit.cover,
+                        alignment: Alignment.center,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${widget.estabelecimento['nomeFantasia']}",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24,
+                                color: Color.fromRGBO(113, 0, 150, 0.8)),
+                          ),
+                          Text(
+                            "@${widget.estabelecimento['arrobaInsta']}",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w100,
+                                color: Colors.black38),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                const Text(
-                  'Estabelecimento',
-                  style: TextStyle(color: Color.fromARGB(255, 88, 88, 88)),
-                ),
-                const Divider(),
                 Card(
                   color: const Color.fromARGB(255, 94, 197, 212),
                   child: ListTile(
@@ -180,7 +142,15 @@ class _TelaInicialAdminState extends State<TelaInicialAdmin> {
                         color: Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CadastrarDisponibilidade(
+                              estabelecimento: widget.estabelecimento),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],

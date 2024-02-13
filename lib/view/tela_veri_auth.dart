@@ -43,7 +43,7 @@ class VerificarAutenticacao extends StatelessWidget {
                 } else {
                   if (userSnapshot.hasData && userSnapshot.data != null) {
                     // Usuário está na coleção 'usuarios'
-                    return TelaInicialInfluencer();
+                    return ListaEstabelecimentosInfluencer();
                   } else {
                     return FutureBuilder(
                       future: FirebaseFirestore.instance

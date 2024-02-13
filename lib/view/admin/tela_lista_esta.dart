@@ -3,9 +3,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:social_media_flutter/social_media_flutter.dart';
+import 'package:parceiroezze/view/admin/tela_cadastrar_disponibilidade.dart';
+import 'package:parceiroezze/view/admin/tela_estabelecimento_completo.dart';
+import 'package:parceiroezze/view/admin/tela_view_detalhes_usuario.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ListaEstabelecimentos extends StatefulWidget {
   const ListaEstabelecimentos({Key? key}) : super(key: key);
@@ -68,7 +69,7 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> {
             ),
           ),
           Card(
-            elevation: 2.0,
+            color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -214,111 +215,65 @@ class EstabelecimentoCard extends StatelessWidget {
 
     return Card(
       color: const Color.fromRGBO(255, 255, 255, 1),
-      elevation: 1,
+      elevation: 0,
       margin: const EdgeInsets.all(10),
-      child: Padding(
-        padding: const EdgeInsets.all(0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (data['imageUrl'] != null)
-              Image.network(
-                data['imageUrl'],
-                width: MediaQuery.of(context).size.height,
-                height: 150,
-                fit: BoxFit.cover,
-                alignment: Alignment.center,
-              ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Image.network(
-                        data['imageUrlLogo'],
-                        width: 75,
-                        height: 75,
-                        fit: BoxFit.cover,
-                        alignment: Alignment.center,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${data['nomeFantasia']}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24,
-                                color: Color.fromRGBO(113, 0, 150, 0.8)),
-                          ),
-                          Text(
-                            '@${data['arrobaInsta']}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w100,
-                                color: Colors.black38),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          launchUrl(_url);
-                        },
-                        color: const Color.fromARGB(255, 94, 197, 212),
-                        icon: const Icon(SocialIconsFlutter.instagram),
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {
-                          launchUrl(_enderecoUrl);
-                        },
-                        color: const Color.fromARGB(255, 94, 197, 212),
-                        icon: const Icon(Icons.location_on_outlined),
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {
-                          launchUrl(_whatsUrl);
-                        },
-                        color: const Color.fromARGB(255, 94, 197, 212),
-                        icon: const Icon(FontAwesomeIcons.whatsapp),
-                      ),
-                      const Spacer(),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: const Row(
+      child: ListTile(
+        title: Padding(
+          padding: const EdgeInsets.all(0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Image.network(
+                          data['imageUrlLogo'],
+                          width: 75,
+                          height: 75,
+                          fit: BoxFit.cover,
+                          alignment: Alignment.center,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(
-                              Icons.edit,
-                              color: Color.fromARGB(255, 94, 197, 212),
+                            Text(
+                              '${data['nomeFantasia']}',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24,
+                                  color: Color.fromRGBO(113, 0, 150, 0.8)),
                             ),
                             Text(
-                              "Editar Perfil",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 94, 197, 212)),
+                              '@${data['arrobaInsta']}',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w100,
+                                  color: Colors.black38),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TelaEstaCompl(estabelecimento: data),
+            ),
+          );
+        },
       ),
     );
   }

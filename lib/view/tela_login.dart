@@ -52,7 +52,7 @@ class _TelaLoginState extends State<TelaLogin> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => TelaInicialInfluencer(),
+                builder: (context) => ListaEstabelecimentosInfluencer(),
               ),
             );
           } else {
@@ -186,7 +186,11 @@ class _TelaLoginState extends State<TelaLogin> {
                         onPressed: () {
                           _signInWithEmailAndPassword(context);
                         },
-                        child: const Text("Login", style: TextStyle(color: const Color.fromRGBO(113, 0, 150, 1)),),
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(
+                              color: const Color.fromRGBO(113, 0, 150, 1)),
+                        ),
                       ),
                       TextButton(
                         onPressed: () {
