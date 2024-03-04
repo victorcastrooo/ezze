@@ -3,9 +3,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:social_media_flutter/social_media_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:parceiroezze/widget/estabelecimento_card.dart';
 
 class ListaEstabelecimentosInfluencer extends StatefulWidget {
   const ListaEstabelecimentosInfluencer({Key? key}) : super(key: key);
@@ -31,6 +29,7 @@ class _ListaEstabelecimentosState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           'Estabelecimentos',
@@ -63,14 +62,15 @@ class _ListaEstabelecimentosState
                   itemBuilder: (context, index) {
                     final estabelecimentoData =
                         estabelecimentos[index].data() as Map<String, dynamic>;
-                    return EstabelecimentoCard(estabelecimentoData);
+                    return EstabelecimentoCardInflu(estabelecimentoData);
                   },
                 );
               },
             ),
           ),
           Card(
-            elevation: 2.0,
+            elevation: 0,
+            color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -199,137 +199,5 @@ class _ListaEstabelecimentosState
   void initState() {
     super.initState();
     _updateSearchResults('');
-  }
-}
-
-class EstabelecimentoCard extends StatelessWidget {
-  final Map<String, dynamic> data;
-
-  const EstabelecimentoCard(this.data, {Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Uri _url = Uri.parse('https://www.instagram.com/${data['arrobaInsta']}/');
-    Uri _enderecoUrl = Uri.parse(
-        'https://www.google.com/maps/search/?api=1&query=${data['endereco']}+${data['numero']}+${data['cidade']}+${data['cep']}');
-    Uri _whatsUrl = Uri.parse('https://wa.me/+${data['telefoneresponsavel']}');
-
-    return Card(
-      color: const Color.fromRGBO(255, 255, 255, 1),
-      elevation: 1,
-      margin: const EdgeInsets.all(10),
-      child: Padding(
-        padding: const EdgeInsets.all(0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (data['imageUrl'] != null)
-              Image.network(
-                data['imageUrl'],
-                width: MediaQuery.of(context).size.height,
-                height: 150,
-                fit: BoxFit.cover,
-                alignment: Alignment.center,
-              ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Image.network(
-                        data['imageUrlLogo'],
-                        width: 75,
-                        height: 75,
-                        fit: BoxFit.cover,
-                        alignment: Alignment.center,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${data['nomeFantasia']}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24,
-                                color: Color.fromRGBO(113, 0, 150, 0.8)),
-                          ),
-                          Text(
-                            '@${data['arrobaInsta']}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w100,
-                                color: Colors.black38),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          launchUrl(_url);
-                        },
-                        color: const Color.fromARGB(255, 94, 197, 212),
-                        icon: const Icon(SocialIconsFlutter.instagram),
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {
-                          launchUrl(_enderecoUrl);
-                        },
-                        color: const Color.fromARGB(255, 94, 197, 212),
-                        icon: const Icon(Icons.location_on_outlined),
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {
-                          launchUrl(_whatsUrl);
-                        },
-                        color: const Color.fromARGB(255, 94, 197, 212),
-                        icon: const Icon(FontAwesomeIcons.whatsapp),
-                      ),
-                      const Spacer(),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: const Row(
-                          children: [
-                            Icon(
-                              Icons.edit,
-                              color: Color.fromARGB(255, 94, 197, 212),
-                            ),
-                            Text(
-                              "Editar Perfil",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 94, 197, 212)),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-void launchUrl(Uri url) async {
-  if (await canLaunch(url.toString())) {
-    await launch(url.toString());
-  } else {
-    throw 'Não foi possível abrir o URL: $url';
   }
 }

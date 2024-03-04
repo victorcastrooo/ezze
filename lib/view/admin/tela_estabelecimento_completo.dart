@@ -1,8 +1,14 @@
+// ignore_for_file: unused_import, unused_element
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parceiroezze/view/admin/tela_cadastrar_disponibilidade.dart';
+import 'package:parceiroezze/view/admin/tela_cadastrar_fatura.dart';
 import 'package:parceiroezze/view/admin/tela_novo_estabelecimento.dart';
 import 'package:parceiroezze/view/admin/tela_lista_esta.dart';
+import 'package:parceiroezze/view/admin/tela_ver_disponibilidades_esta.dart';
+import 'package:parceiroezze/view/admin/tela_vercontrato.dart';
 import 'package:parceiroezze/view/tela_login.dart';
 
 class TelaEstaCompl extends StatefulWidget {
@@ -54,7 +60,7 @@ class _TelaEstaComplState extends State<TelaEstaCompl> {
                   child: Row(
                     children: [
                       Image.network(
-                        "${widget.estabelecimento['imageUrl']}",
+                        "${widget.estabelecimento['imageUrlLogo']}",
                         width: 75,
                         height: 75,
                         fit: BoxFit.cover,
@@ -87,43 +93,73 @@ class _TelaEstaComplState extends State<TelaEstaCompl> {
                 ),
                 Card(
                   color: const Color.fromARGB(255, 94, 197, 212),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.store,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                    title: const Text(
-                      'Estabelecimentos',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ListaEstabelecimentos()),
-                      );
-                    },
-                  ),
-                ),
-                Card(
-                  color: const Color.fromARGB(255, 94, 197, 212),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.add_business,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                    title: const Text('Novo Estabelecimento',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255))),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const NovoEstabelecimento(),
-                        ),
-                      );
+                  child: StreamBuilder(
+                    // Use a referência do Firestore para escutar as atualizações em tempo real
+                    stream: FirebaseFirestore.instance
+                        .collection('contratos')
+                        .where('idEsta',
+                            isEqualTo: '${widget.estabelecimento['uid']}')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      // Verifique se há erro ou se a consulta retornou documentos
+                      if (snapshot.hasError) {
+                        return Text("Erro ao carregar dados");
+                      }
+
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator(); // ou outro indicador de carregamento
+                      }
+
+                      // Verifique se há algum documento correspondente
+                      if (snapshot.data!.docs.isNotEmpty) {
+                        // Se existir, altere o texto e a rota do Card
+                        return ListTile(
+                          leading: const Icon(
+                            Icons.post_add_outlined,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                          title: const Text(
+                            'Ver Contrato',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => VerContrato(
+                                  estabelecimento: widget.estabelecimento,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        // Se não existir, mantenha o Card original
+                        return ListTile(
+                          leading: const Icon(
+                            Icons.post_add_outlined,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                          title: const Text(
+                            'Cadastrar Fatura',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CadastrarFatura(
+                                  estabelecimento: widget.estabelecimento,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }
                     },
                   ),
                 ),
@@ -145,6 +181,30 @@ class _TelaEstaComplState extends State<TelaEstaCompl> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => CadastrarDisponibilidade(
+                              estabelecimento: widget.estabelecimento),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Card(
+                  color: const Color.fromARGB(255, 94, 197, 212),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.access_time_rounded,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    title: const Text(
+                      'Ver Disponibilidade',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VerDisponibilidadeEsta(
                               estabelecimento: widget.estabelecimento),
                         ),
                       );

@@ -150,7 +150,6 @@ class _UsuarioDetailScreenState extends State<UsuarioDetailScreen> {
     required String title,
     required String body,
     required String token,
-    String? image,
   }) async {
     HttpsCallable callable =
         FirebaseFunctions.instance.httpsCallable('sendNotification');

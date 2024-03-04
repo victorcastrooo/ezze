@@ -28,6 +28,7 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           'Estabelecimentos',
@@ -67,6 +68,7 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> {
             ),
           ),
           Card(
+            elevation: 0,
             color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(10),
@@ -209,55 +211,47 @@ class EstabelecimentoCard extends StatelessWidget {
     return Card(
       color: const Color.fromRGBO(255, 255, 255, 1),
       elevation: 0,
-      margin: const EdgeInsets.all(10),
       child: ListTile(
-        title: Padding(
-          padding: const EdgeInsets.all(0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                Row(
                   children: [
-                    Row(
+                    Image.network(
+                      data['imageUrlLogo'],
+                      width: 50,
+                      height: 50,
+                      fit: BoxFit.cover,
+                      alignment: Alignment.center,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.network(
-                          data['imageUrlLogo'],
-                          width: 75,
-                          height: 75,
-                          fit: BoxFit.cover,
-                          alignment: Alignment.center,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${data['nomeFantasia']}',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 24,
-                                  color: Color.fromRGBO(113, 0, 150, 0.8)),
-                            ),
-                            Text(
-                              '@${data['arrobaInsta']}',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w100,
-                                  color: Colors.black38),
-                            ),
-                          ],
+                        Text('${data['nomeFantasia']}',
+                            style: const TextStyle(
+                                fontSize: 20,
+                                color: Color.fromRGBO(113, 0, 150, 0.8),
+                                fontWeight: FontWeight.bold)),
+                        Text(
+                          '@${data['arrobaInsta']}',
+                          style: const TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black38),
                         ),
                       ],
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
         onTap: () {
           Navigator.push(

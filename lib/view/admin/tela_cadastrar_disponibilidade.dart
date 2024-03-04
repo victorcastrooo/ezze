@@ -32,11 +32,11 @@ class _CadastrarDisponibilidadeState extends State<CadastrarDisponibilidade> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        backgroundColor: const Color.fromRGBO(113, 0, 150, 1),
+        iconTheme: const IconThemeData(color: Color.fromARGB(255, 0, 0, 0)),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
         title: Text(
-          '${widget.estabelecimento['uid']}',
-          style: TextStyle(color: Colors.white),
+          '${widget.estabelecimento['nomeFantasia']}',
+          style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
         ),
       ),
       body: SingleChildScrollView(

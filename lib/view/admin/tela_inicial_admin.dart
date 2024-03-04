@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:parceiroezze/view/admin/tela_solicitacao_nova.dart';
 import 'package:parceiroezze/view/admin/tela_novo_estabelecimento.dart';
 import 'package:parceiroezze/view/admin/tela_lista_usuarios.dart';
 import 'package:parceiroezze/view/admin/tela_lista_esta.dart';
+import 'package:parceiroezze/view/admin/tela_solicitacao_aprovada.dart';
+import 'package:parceiroezze/view/admin/tela_solicitacao_negada.dart';
 import 'package:parceiroezze/view/tela_login.dart';
 
 class TelaInicialAdmin extends StatefulWidget {
@@ -116,6 +119,63 @@ class _TelaInicialAdminState extends State<TelaInicialAdmin> {
                     },
                   ),
                 ),
+                Card(
+                  color: const Color.fromARGB(255, 94, 197, 212),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.person_add,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    title: const Text('Novas Solitações',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255))),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NovaSolicitacao(),
+                          ));
+                    },
+                  ),
+                ),
+                Card(
+                  color: const Color.fromARGB(255, 94, 197, 212),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.person_add,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    title: const Text('Solitações Aprovadas',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255))),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AprovadoSolicitacao(),
+                          ));
+                    },
+                  ),
+                ),
+                Card(
+                  color: const Color.fromARGB(255, 94, 197, 212),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.person_add,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    title: const Text('Solitações Negadas',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255))),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NegadaSolicitacao(),
+                          ));
+                    },
+                  ),
+                ),
                 const SizedBox(
                   height: 15,
                 ),
@@ -164,22 +224,6 @@ class _TelaInicialAdminState extends State<TelaInicialAdmin> {
                         ),
                       );
                     },
-                  ),
-                ),
-                Card(
-                  color: const Color.fromARGB(255, 94, 197, 212),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.more_time,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                    title: const Text(
-                      'Cadastrar Disponibilidade',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                    onTap: () {},
                   ),
                 ),
               ],

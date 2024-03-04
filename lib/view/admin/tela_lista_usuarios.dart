@@ -64,6 +64,8 @@ class _ListaUsuariosState extends State<ListaUsuarios> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        shadowColor: Colors.white,
+        backgroundColor: Colors.white,
         title: Text(
           'Parceiros',
           style: TextStyle(
@@ -93,6 +95,7 @@ class _ListaUsuariosState extends State<ListaUsuarios> {
 
                     return Card(
                       color: Colors.white,
+                      elevation: 0,
                       child: ListTile(
                         tileColor: Colors.white,
                         title: Row(
@@ -218,6 +221,8 @@ class _ListaUsuariosState extends State<ListaUsuarios> {
             ),
           ),
           Card(
+            elevation: 0,
+            color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
